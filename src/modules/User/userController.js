@@ -3,6 +3,7 @@ import prisma from '../../../Database/prisma/prismClient.js';
 import AppError from '../../middlewares/error/appError.js';
 import Response from '../../utils/response.js';
 import argon from 'argon2';
+import { ApiFeatures } from '../../utils/api-featuresjs.js';
 
 export const createNewUser = catchAsync(async (req, res, next) => {
   const { name, email, handler, password } = req.body;
@@ -54,14 +55,12 @@ export const updateUserById = catchAsync(async (req, res, next) => {
 });
 
 export const getAllUsers = catchAsync(async (req, res, next) => {
-  const foundedUsers = await prisma.user.findMany({
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      handler: true,
-    },
-  });
+  const features = new ApiFeatures(
+    prisma.user.findMany(),
+    req.query
+  ).paginate();
+
+  const foundedUsers = (await features).prismaQuery;
 
   if (foundedUsers.length == 0)
     return next(new AppError('No users found!', 404));
