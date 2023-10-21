@@ -29,6 +29,6 @@ export const verifyToken = async token => {
 
     return decodedPayload;
   } catch (error) {
-    throw new AppError(error.message, 500);
+    throw new AppError('Invalid Token, Please login!', 500);
   }
 };
