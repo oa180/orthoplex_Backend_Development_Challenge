@@ -15,7 +15,7 @@ export const createUserValidationSchema = Joi.object({
 
   handler: Joi.string().min(4).required().messages({
     'string.base': 'Handler should be string!',
-    'string.min': 'Handler should be at least 6 characters length!',
+    'string.min': 'Handler should be at least 4 characters length!',
     'any.required': 'You should provide a handler property!',
   }),
 
