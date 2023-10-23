@@ -1,10 +1,12 @@
+// =============================================
 import AppError from '../../middlewares/error/appError.js';
 import catchAsync from '../../utils/catchAsync.js';
 import prisma from '../../../Database/prisma/prismClient.js';
 import argon from 'argon2';
 import Response from '../../utils/response.js';
 import { createToken, verifyToken } from './jwt.js';
-import { getUserById } from '../User/userController.js';
+
+// =============================================
 export const signUserIn = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -13,16 +15,13 @@ export const signUserIn = catchAsync(async (req, res, next) => {
       new AppError('Please provide a valid eamil and password!', 400)
     );
 
-  // NOTE seperate the find user logic
-  const foundedUser = await prisma.user.findUnique({ where: { email } });
-
+  const foundedUser = await getUserBy('email', email);
   if (!foundedUser) return next(new AppError('Wrong Email or Password!', 403));
 
   const isUserPasswordVerified = await verifyPassword(
     foundedUser.password,
     password
   );
-
   if (!isUserPasswordVerified)
     return next(new AppError('Wrong Email or Password!', 403));
 
@@ -32,7 +31,6 @@ export const signUserIn = catchAsync(async (req, res, next) => {
   };
 
   const token = createToken(jwtPayload);
-
   if (!token)
     return next(
       new AppError('Something went wrong. Couldnot create user token!', 500)
@@ -43,6 +41,7 @@ export const signUserIn = catchAsync(async (req, res, next) => {
   });
 });
 
+// =============================================
 export const authenticateUser = catchAsync(async (req, res, next) => {
   if (
     !req.headers.authorization ||
@@ -60,33 +59,18 @@ export const authenticateUser = catchAsync(async (req, res, next) => {
 
   const decodedPayload = await verifyToken(token);
 
-  // NOTE Seperate find user logic
-  const tokenOwner = await prisma.user.findUnique({
-    where: { id: decodedPayload.id },
-  });
-  console.log(
-    '🚀 ~ file: authController.js:67 ~ authenticateUser ~ tokenOwner:',
-    tokenOwner
-  );
-
+  const tokenOwner = await getUserBy('id', decodedPayload.id);
   if (!tokenOwner)
     return next(
       new AppError('User belongs to this token is no longer exists!', 401)
     );
 
-  console.log(
+  const userChangedPasswordAfterTokenGenerated =
     checkUserChangedPasswordAfterTokenGenerated(
       tokenOwner.changedAt,
       decodedPayload.iat
-    )
-  );
-
-  if (
-    checkUserChangedPasswordAfterTokenGenerated(
-      tokenOwner.changedAt,
-      decodedPayload.iat
-    )
-  )
+    );
+  if (userChangedPasswordAfterTokenGenerated)
     return next(
       new AppError(
         'User changed his password after token is created, please login again!',
@@ -98,6 +82,12 @@ export const authenticateUser = catchAsync(async (req, res, next) => {
   next();
 });
 
+// =============================================
+const getUserBy = async (field, value) => {
+  return await prisma.user.findUnique({ where: { [field]: value } });
+};
+
+// =============================================
 const verifyPassword = async (hashedPassword, userPassword) => {
   if (!hashedPassword || !userPassword)
     throw new AppError(
@@ -112,6 +102,7 @@ const verifyPassword = async (hashedPassword, userPassword) => {
   }
 };
 
+// =============================================
 const checkUserChangedPasswordAfterTokenGenerated = (
   userPasswordChangedAt = 0,
   tokenInitiatedTime = 0
