@@ -1,51 +1,71 @@
-import Joi from 'joi';
+import { check } from 'express-validator';
+import validate from '../../middlewares/validation/validate.js';
 
-export const createUserValidationSchema = Joi.object({
-  name: Joi.string().min(6).required().messages({
-    'string.base': 'Name should contains strings only!',
-    'string.min': 'Name should be at least 6 characters length!',
-    'any.required': 'You should provide a name property!',
-  }),
+export const createUserValidationSchema = [
+  check('name')
+    .isString()
+    .isLength({ min: 6 })
+    .withMessage('Name should be at least 6 characters long')
+    .exists()
+    .withMessage('You should provide a name property')
+    .escape(),
 
-  email: Joi.string().email().required().messages({
-    'string.base': 'Email should be string!',
-    'string.email': 'Invalid Email Format!',
-    'any.required': 'You should provide an email property!',
-  }),
+  check('email')
+    .isString()
+    .isEmail()
+    .withMessage('Invalid Email Format')
+    .exists()
+    .withMessage('You should provide an email property')
+    .escape(),
 
-  handler: Joi.string().min(4).required().messages({
-    'string.base': 'Handler should be string!',
-    'string.min': 'Handler should be at least 4 characters length!',
-    'any.required': 'You should provide a handler property!',
-  }),
+  check('handler')
+    .isString()
+    .isLength({ min: 4 })
+    .withMessage('Handler should be at least 4 characters long')
+    .exists()
+    .withMessage('You should provide a handler property')
+    .escape(),
 
-  password: Joi.string().min(8).required().messages({
-    'string.base': 'Password should be string!',
-    'string.min': 'Password should be at least 8 characters length!',
-    'any.required': 'You should provide a password property!',
-  }),
-});
+  check('password')
+    .isString()
+    .isLength({ min: 8 })
+    .withMessage('Password should be at least 8 characters long')
+    .exists()
+    .withMessage('You should provide a password property'),
 
-export const updateUserValidationSchema = Joi.object({
-  id: Joi.string().required().messages({
-    'string.base': 'Usesr should be string!',
-    'any.required': 'You should provide an user id in the query!',
-  }),
-  name: Joi.string().min(6).required().messages({
-    'string.base': 'Name should contains strings only!',
-    'string.min': 'Name should be at least 6 characters length!',
-    'any.required': 'You should provide a name property!',
-  }),
+  validate,
+];
 
-  email: Joi.string().email().required().messages({
-    'string.base': 'Email should be string!',
-    'string.email': 'Invalid Email Format!',
-    'any.required': 'You should provide an email property!',
-  }),
+export const updateUserValidationSchema = [
+  check('id')
+    .isString()
+    .notEmpty()
+    .withMessage('You should provide a user id in the query')
+    .escape(),
 
-  handler: Joi.string().min(4).required().messages({
-    'string.base': 'Handler should be string!',
-    'string.min': 'Handler should be at least 6 characters length!',
-    'any.required': 'You should provide a handler property!',
-  }),
-});
+  check('name')
+    .isString()
+    .isLength({ min: 6 })
+    .withMessage('Name should be at least 6 characters long')
+    .notEmpty()
+    .withMessage('You should provide a name property')
+    .escape(),
+
+  check('email')
+    .isString()
+    .isEmail()
+    .withMessage('Invalid Email Format')
+    .notEmpty()
+    .withMessage('You should provide an email property')
+    .escape(),
+
+  check('handler')
+    .isString()
+    .isLength({ min: 4 })
+    .withMessage('Handler should be at least 4 characters long')
+    .notEmpty()
+    .withMessage('You should provide a handler property')
+    .escape(),
+
+  validate,
+];

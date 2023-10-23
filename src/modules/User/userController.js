@@ -1,12 +1,28 @@
+import argon from 'argon2';
+// =============================================
 import catchAsync from '../../utils/catchAsync.js';
 import prisma from '../../../Database/prisma/prismClient.js';
 import AppError from '../../middlewares/error/appError.js';
 import Response from '../../utils/response.js';
-import argon from 'argon2';
 import { ApiFeatures } from '../../utils/api-featuresjs.js';
 
+// =============================================
 export const createNewUser = catchAsync(async (req, res, next) => {
   const { name, email, handler, password } = req.body;
+
+  console.log(email);
+
+  let foundedUser = await prisma.user.findUnique({ where: { email } });
+  if (foundedUser)
+    return next(
+      new AppError('User already exists with this email, login instead!')
+    );
+
+  foundedUser = await prisma.user.findUnique({ where: { handler } });
+  if (foundedUser)
+    return next(
+      new AppError('This handler has already been taken, provide another one!')
+    );
 
   const hashedPassword = await hashUserPassword(next, password);
 
@@ -26,6 +42,7 @@ export const createNewUser = catchAsync(async (req, res, next) => {
   Response(res, 'New User Created.', 201, newUser);
 });
 
+// =============================================
 export const updateUserById = catchAsync(async (req, res, next) => {
   const requstCopy = { ...req.body };
 
@@ -37,6 +54,12 @@ export const updateUserById = catchAsync(async (req, res, next) => {
   }
 
   const userId = req.params.id;
+  const foundedUser = await prisma.user.findUnique({ where: { id: userId } });
+
+  if (!foundedUser)
+    return next(
+      new AppError('Faild To update, No User found with this ID!', 404)
+    );
 
   const updatedUser = await prisma.user.update({
     where: {
@@ -54,9 +77,17 @@ export const updateUserById = catchAsync(async (req, res, next) => {
   Response(res, 'User Updated Successfull.', 200, updatedUser);
 });
 
+// =============================================
 export const getAllUsers = catchAsync(async (req, res, next) => {
   const features = new ApiFeatures(
-    prisma.user.findMany(),
+    prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        handler: true,
+      },
+    }),
     req.query
   ).paginate();
 
@@ -68,6 +99,7 @@ export const getAllUsers = catchAsync(async (req, res, next) => {
   Response(res, 'Users found.', 200, foundedUsers);
 });
 
+// =============================================
 export const getUserById = catchAsync(async (req, res, next) => {
   const userId = req.params.id;
 
@@ -87,6 +119,7 @@ export const getUserById = catchAsync(async (req, res, next) => {
   Response(res, 'User Found.', 200, foundedUser);
 });
 
+// =============================================
 export const deleteUserById = catchAsync(async (req, res, next) => {
   const userId = req.params.id;
 
@@ -99,6 +132,7 @@ export const deleteUserById = catchAsync(async (req, res, next) => {
   Response(res, 'User deleted successfully!', 204);
 });
 
+// =============================================
 const hashUserPassword = async (next, userPassword) => {
   try {
     if (!next || !userPassword) return;

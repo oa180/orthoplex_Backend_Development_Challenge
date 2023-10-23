@@ -1,8 +1,10 @@
-import catchAsync from '../../utils/catchAsync.js';
+// =============================================
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
+// =============================================
 import AppError from '../../middlewares/error/appError.js';
 
+// =============================================
 export const createToken = payload => {
   try {
     if (!payload)
@@ -11,12 +13,14 @@ export const createToken = payload => {
     const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
+
     return jwtToken;
   } catch (error) {
     throw new AppError(error.message, 500);
   }
 };
 
+// =============================================
 export const verifyToken = async token => {
   try {
     if (!token)

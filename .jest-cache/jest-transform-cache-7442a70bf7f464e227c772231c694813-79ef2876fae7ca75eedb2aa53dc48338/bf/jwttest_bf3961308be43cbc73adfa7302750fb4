@@ -1,0 +1,20 @@
+42ffe8704c7e8178fc9508316ef185b1
+// import { createToken } from '../modules/Authentication/jwt.js';
+
+// process.env.JWT_SECRET = 'jwt-secret';
+// process.env.JWT_EXPIRES_IN = '1h';
+
+// test('should return jsonwebtoken if payload provided', () => {
+//   const payload = { id: '1', handler: 'test123' };
+//   jwt.sign = jest.fn(() => 'jwt-token');
+
+//   const token = createToken(payload);
+
+//   expect(jwt.sign).toHaveBeenCalledWith(payload, 'jwt-secret', {
+//     expiresIn: '1h',
+//   });
+// });
+test('Example test', () => {
+  expect(1 + 1).toBe(2);
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJ0ZXN0IiwiZXhwZWN0IiwidG9CZSJdLCJzb3VyY2VzIjpbImp3dC50ZXN0Lm1qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBpbXBvcnQgeyBjcmVhdGVUb2tlbiB9IGZyb20gJy4uL21vZHVsZXMvQXV0aGVudGljYXRpb24vand0LmpzJztcclxuXHJcbi8vIHByb2Nlc3MuZW52LkpXVF9TRUNSRVQgPSAnand0LXNlY3JldCc7XHJcbi8vIHByb2Nlc3MuZW52LkpXVF9FWFBJUkVTX0lOID0gJzFoJztcclxuXHJcbi8vIHRlc3QoJ3Nob3VsZCByZXR1cm4ganNvbndlYnRva2VuIGlmIHBheWxvYWQgcHJvdmlkZWQnLCAoKSA9PiB7XHJcbi8vICAgY29uc3QgcGF5bG9hZCA9IHsgaWQ6ICcxJywgaGFuZGxlcjogJ3Rlc3QxMjMnIH07XHJcbi8vICAgand0LnNpZ24gPSBqZXN0LmZuKCgpID0+ICdqd3QtdG9rZW4nKTtcclxuXHJcbi8vICAgY29uc3QgdG9rZW4gPSBjcmVhdGVUb2tlbihwYXlsb2FkKTtcclxuXHJcbi8vICAgZXhwZWN0KGp3dC5zaWduKS50b0hhdmVCZWVuQ2FsbGVkV2l0aChwYXlsb2FkLCAnand0LXNlY3JldCcsIHtcclxuLy8gICAgIGV4cGlyZXNJbjogJzFoJyxcclxuLy8gICB9KTtcclxuLy8gfSk7XHJcbnRlc3QoJ0V4YW1wbGUgdGVzdCcsICgpID0+IHtcclxuICBleHBlY3QoMSArIDEpLnRvQmUoMik7XHJcbn0pO1xyXG4iXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBOztBQUVBOztBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0FBLElBQUksQ0FBQyxjQUFjLEVBQUUsTUFBTTtFQUN6QkMsTUFBTSxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FBQ0MsSUFBSSxDQUFDLENBQUMsQ0FBQztBQUN2QixDQUFDLENBQUMifQ==

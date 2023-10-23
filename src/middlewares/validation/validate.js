@@ -1,19 +1,10 @@
-import Response from '../../utils/response.js';
+import { validationResult } from 'express-validator';
 
-const validateInput = validaionSchema => {
-  return (req, res, next) => {
-    let inputs = { ...req.body, ...req.params, ...req.query };
-    // console.log('🚀 ~ file: validate.js:6 ~ return ~ inputs:', inputs);
-
-    let { error } = validaionSchema.validate(inputs, { abrotEarly: false });
-
-    if (error) {
-      let errors = error.details.map(detail => detail.message);
-      return Response(res, 'Not Valied Inputs', 406, errors);
-    }
-
-    next();
-  };
+// =============================================
+const validate = (req, res, next) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) return res.status(400).json({ errors: error.array() });
+  next();
 };
 
-export default validateInput;
+export default validate;
