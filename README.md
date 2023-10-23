@@ -72,6 +72,7 @@ Authentication:
 User: 
 	-	Path: ./src/modules/User
 	-	Description: Contains all User logic
+ 
 	-	Sub: 
  
 		o	userRouter.js: contains the endpoints for
@@ -91,6 +92,7 @@ User:
 Middlewares
 	-	Path: ./src/middlewates/User
 	-	Description: Contains all middleware in the app
+ 
 	-	Sub: 
  
 		o	Error
@@ -102,10 +104,11 @@ Middlewares
 Utils
 	-	Path: ./src/utils
 	-	Description: Contains all helpers that I have used in the application
+ 
 	-	Sub: 
  
 		o	Api-features.js: 
-			A generic class contains the pagination logic, could be extended to handle any type of filters or sorting
+				A generic class contains the pagination logic, could be extended to handle any type of filters or sorting
 		o	catchAsync.js:
 				A middleware to handle asynchronous errors
 		o	Response.js
@@ -119,28 +122,29 @@ Tests
 #####################################################
 
 Technologies & Tools
+
 	Interaction with Database
-1-	I have Implemented the necessary configuration to connect to postgreSQL database, and have created schema (table structure) using Prisma ORM.
-2-	I have used Prisma to interact with the database using it’s built-in methods.
+		1-	I have Implemented the necessary configuration to connect to postgreSQL database, and have created schema (table structure) using Prisma ORM.
+		2-	I have used Prisma to interact with the database using it’s built-in methods.
 
- User authentication
-1-	I have user jsonwebtoken (JWT) to authenticate users and protect routes in my application.
+	 User authentication
+		1-	I have user jsonwebtoken (JWT) to authenticate users and protect routes in my application.
 	
-Input validation & security (sql injection)
-1-	I have validated and sanitized user input using express-validator library.
-2-	To prevent SQL injection I took a variety of approaches:
-a.	I have used a strong ORM (prisma) which explicitly protect against sql injection
-b.	I have avoided to use native sql queries.
-c.	
-Prevent Cross Site Scripting (XXS)
-1-	I have used the helmet middleware which sets headers to protect against XXS
-2-	I have used escaping technique, which is available in the validation schema.
+	Input validation & security (sql injection)
+		1-	I have validated and sanitized user input using express-validator library.
+		2-	To prevent SQL injection I took a variety of approaches:
+			a.	I have used a strong ORM (prisma) which explicitly protect against sql injection
+			b.	I have avoided to use native sql queries.
 
-Prevent brute force and denial of service
-1-	I have used rate-limit middleware to control the number of request sent from the same IP address in a specific time window.
+	Prevent Cross Site Scripting (XXS)
+		1-	I have used the helmet middleware which sets headers to protect against XXS
+		2-	I have used escaping technique, which is available in the validation schema.
 
-Prevent parameter pollution
-1-	I have used http-parameter-pollution (hpp) which prevent this vulnerability by considering only the last appearance of the parameter.
+	Prevent brute force and denial of service
+		1-	I have used rate-limit middleware to control the number of request sent from the same IP address in a specific time window.
+
+	Prevent parameter pollution
+		1-	I have used http-parameter-pollution (hpp) which prevent this vulnerability by considering only the last appearance of the parameter.
 
 
 ## Getting Started
