@@ -47,71 +47,74 @@ This is a user management API built using Node.js and an SQL database (PostgreSQ
 Application File Structure
 Entry Point: server.js
 Database: 
--	Path: ./Database
--	Sub: Prisma
+	-	Path: ./Database
+	-	Sub: Prisma
+
 src: 
--	Path: ./src
--	Sub: [app.js – middlewares - modules - utils - tests]
+	-	Path: ./src
+	-	Sub: [app.js – middlewares - modules - utils - tests]
+ 
 modules:
--	Path: ./src/modules
--	Sub: Authentication – User
+	-	Path: ./src/modules
+	-	Sub: Authentication – User
+
 Authentication: 
--	Path: ./src/modules/Authentication
--	Description: Contains all authentication logic
--	Sub: 
-o	authRouter.js: contains the endpoint for signin
-
-o	authController.js:
-	 contains the logic for signing user in
-	Contains authenticate user logic
-
-o	Jwt.js: contains the logic for creating and verifying token
-
-o	signinValidation: contains input validation, sanitization and escaping
+	-	Path: ./src/modules/Authentication
+	-	Description: Contains all authentication logic
+	-	Sub: 
+		o	authRouter.js: contains the endpoint for signin
+		o	authController.js:
+				 contains the logic for signing user in
+				Contains authenticate user logic
+		o	Jwt.js: contains the logic for creating and verifying token
+		o	signinValidation: contains input validation, sanitization and escaping
 
 User: 
--	Path: ./src/modules/User
--	Description: Contains all User logic
--	Sub: 
-o	userRouter.js: contains the endpoints for
-	create new user => POST /api/users
-	get all users (includes pagination) => GET /api/users
-	get one user by id => GET /api/users/:uid/profile
-	update user by id => PATCH /api/users/:id/update
-	delete user by id => DELETE /api/users/:id/delete
+	-	Path: ./src/modules/User
+	-	Description: Contains all User logic
+	-	Sub: 
+ 
+		o	userRouter.js: contains the endpoints for
+				create new user => POST /api/users
+				get all users (includes pagination) => GET /api/users
+				get one user by id => GET /api/users/:uid/profile
+				update user by id => PATCH /api/users/:id/update
+				delete user by id => DELETE /api/users/:id/delete
+   
+		o	userController.js:
+				contains all crud operations on user login
 
-o	userController.js:
-	contains all crud operations on user login
-
-o	userValidation:
-	 contains create user’s input validation, sanitization and escaping
-	contains update user’s input validation, sanitization and escaping
+		o	userValidation:
+				 contains create user’s input validation, sanitization and escaping
+				contains update user’s input validation, sanitization and escaping
 
 Middlewares
--	Path: ./src/middlewates/User
--	Description: Contains all middleware in the app
--	Sub: 
-o	Error
-	appError.js: I have created a personalized error class to standardize the format of my error responses.
+	-	Path: ./src/middlewates/User
+	-	Description: Contains all middleware in the app
+	-	Sub: 
+ 
+		o	Error
+				appError.js: I have created a personalized error class to standardize the format of my error responses.
 
-o	Validation
-	Validate.js: captures input validation error if exists
+		o	Validation
+				Validate.js: captures input validation error if exists
 
 Utils
--	Path: ./src/utils
--	Description: Contains all helpers that I have used in the application
--	Sub: 
-o	Api-features.js: 
-	A generic class contains the pagination logic, could be extended to handle any type of filters or sorting
-o	catchAsync.js:
-	A middleware to handle asynchronous errors
-o	Response.js
-	A generic class to standardize the shape of my response
+	-	Path: ./src/utils
+	-	Description: Contains all helpers that I have used in the application
+	-	Sub: 
+ 
+		o	Api-features.js: 
+			A generic class contains the pagination logic, could be extended to handle any type of filters or sorting
+		o	catchAsync.js:
+				A middleware to handle asynchronous errors
+		o	Response.js
+				A generic class to standardize the shape of my response
 
 Tests
--	Path: ./src/tests
--	Description: Contains test logic
--	Not finished:  I  ran out of time
+	-	Path: ./src/tests
+	-	Description: Contains test logic
+	-	Not finished:  I  ran out of time
   
 #####################################################
 
